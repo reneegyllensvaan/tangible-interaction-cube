@@ -1,0 +1,83 @@
+
+body {
+    margin: 40px;
+    background-color: white;
+}
+
+#poster {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr [last];
+}
+
+.box {
+    background-color: rgb(207, 207, 207);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.header {
+    background-color: rgb(202, 39, 180);
+    text-align: center;
+    grid-column: 1/ last;
+}
+
+.footer {
+    background-color: rgb(90, 19, 172);
+    text-align: center;
+    grid-column: 1/ last;
+}
+
+.zen {
+    background-image: url("Zenyatta-portrait.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    height: auto;
+}
+
+.party {
+    background-image: url();
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    height: auto;
+}
+
+.party-hard {
+    background-image: url();
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    height: auto;
+}
+
+.focus {
+    background-image: url(Hanzoplate.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    height: auto;
+}
+
+.relax {
+    background-image: url();
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    height: auto;
+}
+
+.initial {
+    background-image: url();
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    height: auto;
+}
+
+.size {
+    min-height: 1000px;
+}
+
+}
