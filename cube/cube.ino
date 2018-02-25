@@ -10,26 +10,27 @@ const float MPU_ACCL_2_SCALE = 16384.0;
 const float MPU_ACCL_4_SCALE = 8192.0;
 const float MPU_ACCL_8_SCALE = 4096.0;
 const float MPU_ACCL_16_SCALE = 2048.0;
- 
+
+const float ACCL_THRESHOLD = 0.10;
  
 struct rawdata {
-int16_t AcX;
-int16_t AcY;
-int16_t AcZ;
-int16_t Tmp;
-int16_t GyX;
-int16_t GyY;
-int16_t GyZ;
+  int16_t AcX;
+  int16_t AcY;
+  int16_t AcZ;
+  int16_t Tmp;
+  int16_t GyX;
+  int16_t GyY;
+  int16_t GyZ;
 };
  
 struct scaleddata{
-float AcX;
-float AcY;
-float AcZ;
-float Tmp;
-float GyX;
-float GyY;
-float GyZ;
+  float AcX;
+  float AcY;
+  float AcZ;
+  float Tmp;
+  float GyX;
+  float GyY;
+  float GyZ;
 };
  
 bool checkI2c(byte addr);
@@ -38,12 +39,13 @@ rawdata mpu6050Read(byte addr, bool Debug);
 void setMPU6050scales(byte addr,uint8_t Gyro,uint8_t Accl);
 void getMPU6050scales(byte addr,uint8_t &Gyro,uint8_t &Accl);
 scaleddata convertRawToScaled(byte addr, rawdata data_in,bool Debug);
+int direction = 1;
  
 void setup() {
-Wire.begin(4,5);
-Serial.begin(115200);
- 
-mpu6050Begin(MPU_addr);
+  Wire.begin(4,5);
+  Serial.begin(115200);
+      
+  mpu6050Begin(MPU_addr);
 }
  
 void loop() {
@@ -51,12 +53,9 @@ void loop() {
   setMPU6050scales(MPU_addr,0b00000000,0b00010000);
   next_sample = mpu6050Read(MPU_addr, true);
   convertRawToScaled(MPU_addr, next_sample,true);
-   
   delay(1500); // Wait 5 seconds and scan again
 }
- 
-  
- 
+
 void mpu6050Begin(byte addr){
   // This function initializes the MPU-6050 IMU Sensor
   // It verifys the address is correct and wakes up the
@@ -66,7 +65,6 @@ void mpu6050Begin(byte addr){
     Wire.write(0x6B); // PWR_MGMT_1 register
     Wire.write(0); // set to zero (wakes up the MPU-6050)
     Wire.endTransmission(true);
-     
     delay(30); // Ensure gyro has enough time to power up
   }
 }
@@ -77,23 +75,22 @@ bool checkI2c(byte addr){
   // a device did acknowledge to the address.
   Serial.println(" ");
   Wire.beginTransmission(addr);
-   
+
   if (Wire.endTransmission() == 0){
     Serial.print(" Device Found at 0x");
     Serial.println(addr,HEX);
     return true;
   } else {
-  Serial.print(" No Device Found at 0x");
-  Serial.println(addr,HEX);
-  return false;
+    Serial.print(" No Device Found at 0x");
+    Serial.println(addr,HEX);
+    return false;
   }
 }
  
 
 rawdata mpu6050Read(byte addr, bool Debug){
   // This function reads the raw 16-bit data values from
-  // the MPU-6050 
-   
+  // the MPU-6050
   rawdata values;
    
   Wire.beginTransmission(addr);
@@ -107,13 +104,12 @@ rawdata mpu6050Read(byte addr, bool Debug){
   values.GyX=Wire.read()<<8|Wire.read(); // 0x43 (GYRO_XOUT_H) & 0x44 (GYRO_XOUT_L)
   values.GyY=Wire.read()<<8|Wire.read(); // 0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L)
   values.GyZ=Wire.read()<<8|Wire.read(); // 0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L)
-   
-   
+
   if(Debug){
-    Serial.print(" GyX = "); Serial.print(values.GyX);
-    Serial.print(" | GyY = "); Serial.print(values.GyY);
-    Serial.print(" | GyZ = "); Serial.print(values.GyZ);
-    Serial.print(" | Tmp = "); Serial.print(values.Tmp);
+    //Serial.print(" GyX = "); Serial.print(values.GyX);
+    //Serial.print(" | GyY = "); Serial.print(values.GyY);
+    //Serial.print(" | GyZ = "); Serial.print(values.GyZ);
+    //Serial.print(" | Tmp = "); Serial.print(values.Tmp);
     Serial.print(" | AcX = "); Serial.print(values.AcX);
     Serial.print(" | AcY = "); Serial.print(values.AcY);
     Serial.print(" | AcZ = "); Serial.println(values.AcZ);
@@ -148,36 +144,36 @@ scaleddata convertRawToScaled(byte addr, rawdata data_in, bool Debug){
   getMPU6050scales(MPU_addr, Gyro, Accl);
    
   if(Debug){
-  Serial.print("Gyro Full-Scale = ");
+    Serial.print("Gyro Full-Scale = ");
   }
    
   switch (Gyro){
   case 0:
-  scale_value = MPU_GYRO_250_SCALE;
-  if(Debug){
-  Serial.println("±250 °/s");
-  }
-  break;
+    scale_value = MPU_GYRO_250_SCALE;
+    if(Debug){
+      Serial.println("±250 °/s");
+    }
+    break;
   case 1:
-  scale_value = MPU_GYRO_500_SCALE;
-  if(Debug){
-  Serial.println("±500 °/s");
-  }
-  break;
+    scale_value = MPU_GYRO_500_SCALE;
+    if(Debug){
+      Serial.println("±500 °/s");
+    }
+    break;
   case 2:
-  scale_value = MPU_GYRO_1000_SCALE;
-  if(Debug){
-  Serial.println("±1000 °/s");
-  }
-  break;
+    scale_value = MPU_GYRO_1000_SCALE;
+    if(Debug){
+      Serial.println("±1000 °/s");
+    }
+    break;
   case 3:
-  scale_value = MPU_GYRO_2000_SCALE;
-  if(Debug){
-  Serial.println("±2000 °/s");
-  }
-  break;
+    scale_value = MPU_GYRO_2000_SCALE;
+    if(Debug){
+      Serial.println("±2000 °/s");
+    }
+    break;
   default:
-  break;
+    break;
   }
    
   values.GyX = (float) data_in.GyX / scale_value;
@@ -186,35 +182,35 @@ scaleddata convertRawToScaled(byte addr, rawdata data_in, bool Debug){
    
   scale_value = 0.0;
   if(Debug){
-  Serial.print("Accl Full-Scale = ");
+    Serial.print("Accl Full-Scale = ");
   }
   switch (Accl){
   case 0:
-  scale_value = MPU_ACCL_2_SCALE;
-  if(Debug){
-  Serial.println("±2 g");
-  }
-  break;
+    scale_value = MPU_ACCL_2_SCALE;
+    if(Debug){
+      Serial.println("±2 g");
+    }
+    break;
   case 1:
-  scale_value = MPU_ACCL_4_SCALE;
-  if(Debug){
-  Serial.println("±4 g");
-  }
-  break;
+    scale_value = MPU_ACCL_4_SCALE;
+    if(Debug){
+      Serial.println("±4 g");
+    }
+    break;
   case 2:
-  scale_value = MPU_ACCL_8_SCALE;
-  if(Debug){
-  Serial.println("±8 g");
-  }
-  break;
+    scale_value = MPU_ACCL_8_SCALE;
+    if(Debug){
+      Serial.println("±8 g");
+    }
+    break;
   case 3:
-  scale_value = MPU_ACCL_16_SCALE;
-  if(Debug){
-  Serial.println("±16 g");
-  }
-  break;
+    scale_value = MPU_ACCL_16_SCALE;
+    if(Debug){
+      Serial.println("±16 g");
+    }
+    break;
   default:
-  break;
+    break;
   }
   values.AcX = (float) data_in.AcX / scale_value;
   values.AcY = (float) data_in.AcY / scale_value;
@@ -225,18 +221,52 @@ scaleddata convertRawToScaled(byte addr, rawdata data_in, bool Debug){
   values.Tmp = (float) data_in.Tmp / 340.0 + 36.53;
    
   if(Debug){
-  Serial.print(" GyX = "); Serial.print(values.GyX);
-  Serial.print(" °/s| GyY = "); Serial.print(values.GyY);
-  Serial.print(" °/s| GyZ = "); Serial.print(values.GyZ);
-  Serial.print(" °/s| Tmp = "); Serial.print(values.Tmp);
-  Serial.print(" °C| AcX = "); Serial.print(values.AcX);
-  Serial.print(" g| AcY = "); Serial.print(values.AcY);
-  Serial.print(" g| AcZ = "); Serial.print(values.AcZ);Serial.println(" g");
+    Serial.print(" GyX = "); Serial.print(values.GyX);
+    Serial.print(" °/s| GyY = "); Serial.print(values.GyY);
+    Serial.print(" °/s| GyZ = "); Serial.print(values.GyZ);
+    Serial.print(" °/s| Tmp = "); Serial.print(values.Tmp);
+    Serial.print(" °C| AcX = "); Serial.print(values.AcX);
+    Serial.print(" g| AcY = "); Serial.print(values.AcY);
+    Serial.print(" g| AcZ = "); Serial.print(values.AcZ);Serial.println(" g");
   }
    
   return values;
 }
 
+bool reasonablyClose(float value, float target) {
+  return (value - ACCL_THRESHOLD < target) && (value + ACCL_THRESHOLD > target);
+}
 
+void valuesToDirection() {
+  //X value: sides 2 and 5
+  if (reasonablyClose(val.AcX, -1) {
+    direction = 5; 
+  }
+  if (reasonablyClose(val.AcX, 1) {
+    direction = 2; 
+  }
 
+  //Y value: sides 3 and 4
+  if (reasonablyClose(val.AcY, -1) {
+    direction = 4; 
+  }
+  if (reasonablyClose(val.AcY, 1) {
+    direction = 3; 
+  }
 
+  //Z value: sides 1 and 6
+  if (reasonablyClose(val.AcZ, -1) {
+    direction = 1; 
+  }
+  if (reasonablyClose(val.AcZ, 1) {
+    direction = 6; 
+  }
+
+  if (Debug) {
+    Serial.print("Direction: ");
+    Serial.print(direction);
+    Serial.print("\n");
+  }
+
+  return;
+}
