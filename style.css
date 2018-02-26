@@ -23,7 +23,7 @@ body {
 }
 
 .footer {
-    background-color: rgb(90, 19, 172);
+    background-color: rgb(158, 96, 230);
     text-align: center;
     grid-column: 1/ last;
 }
@@ -32,52 +32,46 @@ body {
     background-image: url("Zenyatta-portrait.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
-    height: auto;
+    background-size: contain;
 }
 
 .party {
-    background-image: url();
+    background-image: url("Mccree-portrait.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
-    height: auto;
+    background-size: contain;
 }
 
 .party-hard {
-    background-image: url();
+    background-image: url("Junkrat-Portrait.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
-    height: auto;
+    background-size: contain;
 }
 
 .focus {
-    background-image: url(Hanzoplate.png);
+    background-image: url("Hanzoplate.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
-    height: auto;
+    background-size: contain;
 }
 
 .relax {
-    background-image: url();
+    background-image: url("");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
-    height: auto;
+    background-size: contain;
 }
 
 .initial {
     background-image: url();
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
-    height: auto;
+    background-size: contain;
 }
 
 .size {
-    min-height: 1000px;
+    min-height: 500px;
 }
 
 }
