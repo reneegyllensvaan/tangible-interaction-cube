@@ -6,16 +6,89 @@
     <link href="style.css" rel="stylesheet">  
   </head>
   <body>
+
     <div class="box header">
       <h1>Active Side of the Privacy Cube</h1>
     </div>
-    <div class="box zen size">
-
-    </div>
+    <p></p>
+    <div class="box"><h1 id="active_mode_title">Zen mode</h1></div>
+    
+    <div id="active_mode" class="box zen size"></div>
+    
+    <div class="box"></div>
+    <p></p>
     <div class="box footer">
-      <p>Created by (CIDs): gsanna, renee, wiebkem, other nice ppl </p>
+      <p>Created by (CIDs): gsanna, renee, wiebkem, wilfalk, urbanek </p>
       </div>
+
+
   <script>
+    function changeContent (side) {
+      var active_mode_title = document.getElementById("active_mode_title");
+      var active_mode = document.getElementById("active_mode");
+
+      switch(side) {
+        case 1:
+          active_mode_title.innerHTML= "Zen mode";
+          active_mode.className= "box zen size";
+          break;
+
+        case 2:
+          active_mode_title.innerHTML= "Focus mode";
+          active_mode.className= "box focus size";
+          break;
+
+        case 3:
+          active_mode_title.innerHTML= "Party mode";
+          active_mode.className= "box party size";
+          break;
+
+        case 4:
+          active_mode_title.innerHTML= "Party-hard mode";
+          active_mode.className= "box party-hard size";
+          break;
+
+        case 5:
+          active_mode_title.innerHTML= "Relax mode";
+          active_mode.className= "box relax size";
+          break;
+
+        case 6:
+          active_mode_title.innerHTML= "Initial mode";
+          active_mode.className= "box initial size";
+          break;
+      
+      window.setInterval(changeContent, 500); 
+      }
+
+      // if (side == 1) {
+      //   active_mode_title.innerHTML= "Zen mode";
+      //   active_mode.className= "box zen size";
+      // }
+      // else if (side == 1) {
+      //   active_mode_title.innerHTML= "Focus mode";
+      //   active_mode.className= "box focus size";
+      // }
+      // else if (side == 1) {
+      //   active_mode_title.innerHTML= "Party mode";
+      //   active_mode.className= "box party size";
+      // }
+      // else if (side == 1) {
+      //   active_mode_title.innerHTML= "Party-hard mode";
+      //   active_mode.className= "box party-hard size";
+      // }
+      // else if (side == 1) {
+      //   active_mode_title.innerHTML= "Relax mode";
+      //   active_mode.className= "box relax size";
+      // }
+      // else {
+      //   active_mode_title.innerHTML= "Initial mode";
+      //   active_mode.className= "box initial size";
+      // }
+      
+    }
+
+    window.setInterval(changeContent, 500);
   </script>
   </body>
 </html> 

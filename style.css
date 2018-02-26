@@ -14,70 +14,65 @@ body {
     background-color: rgb(207, 207, 207);
     border-radius: 5px;
     padding: 10px;
+    text-align: center;
 }
 
 .header {
-    background-color: rgb(202, 39, 180);
+    background-color: rgb(66, 202, 39);
     text-align: center;
     grid-column: 1/ last;
 }
 
 .footer {
-    background-color: rgb(90, 19, 172);
+    background-color: rgb(150, 243, 141);
     text-align: center;
     grid-column: 1/ last;
 }
 
 .zen {
-    background-image: url("Zenyatta-portrait.png");
+    background-image: url(Zenyatta-portrait.png);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
-    height: auto;
+    background-size: contain;
 }
 
 .party {
-    background-image: url();
+    background-image: url(Sombra-portrait.png);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
-    height: auto;
+    background-size: contain;
 }
 
 .party-hard {
-    background-image: url();
+    background-image: url(Junkrat-Portrait.png);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
-    height: auto;
+    background-size: contain;
 }
 
 .focus {
     background-image: url(Hanzoplate.png);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
-    height: auto;
+    background-size: contain;
 }
 
 .relax {
-    background-image: url();
+    background-image: url(Moira.png);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
-    height: auto;
+    background-size: contain;
 }
 
 .initial {
-    background-image: url();
+    background-image: url(Mccree-portrait.png);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50%;
-    height: auto;
+    background-size: contain;
 }
 
 .size {
-    min-height: 1000px;
+    min-height: 500px;
 }
 
 }
