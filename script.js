@@ -1,3 +1,17 @@
+function directionReceived () {
+  changeContent(+this.responseText);
+}
+
+function getDirection () {
+  oReq.open("GET", "/dir");
+  oReq.send();
+  window.setTimeout(getDirection, 700);
+}
+
+var oReq = new XMLHttpRequest();
+oReq.addEventListener("load", directionReceived);
+getDirection();
+
 function changeContent (side) {
     var active_mode_title = document.getElementById("active_mode_title");
     var active_mode = document.getElementById("active_mode");
