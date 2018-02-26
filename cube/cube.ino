@@ -1,5 +1,14 @@
 #include "Wire.h"
- 
+
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+
+
+IPAddress    apIP(42, 42, 42, 42);  //ip of cube is 42.42.42.42
+ESP8266WebServer server(80); // run a webserver on port 80
+const char *ssid = "The Privacy Cube";
+const char *password = "facebook";
+
 const uint8_t MPU_addr=0x68; // I2C address of the MPU-6050
 
 const float MPU_GYRO_250_SCALE = 131.0;
@@ -44,16 +53,41 @@ int direction = 1;
 void setup() {
   Wire.begin(4,5);
   Serial.begin(115200);
-      
+
   mpu6050Begin(MPU_addr);
+
+  //set-up the custom IP address
+  WiFi.mode(WIFI_AP_STA);
+  WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));   // subnet FF FF FF 00  
+  
+  /* You can remove the password parameter if you want the AP to be open. */
+  WiFi.softAP(ssid, password);
+
+  IPAddress myIP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(myIP);
+
+  server.on ( "/", serveInterface );
+  server.on ( "/dir", handleDirection );
+
+  server.begin();
+  Serial.println("HTTP server started");
 }
- 
-void loop() {
+
+void serveInterface(){
+  server.send(200, "text/html", "hello cube!");
+}
+
+void handleDirection(){
   rawdata next_sample;
   setMPU6050scales(MPU_addr,0b00000000,0b00010000);
   next_sample = mpu6050Read(MPU_addr, true);
   convertRawToScaled(MPU_addr, next_sample,true);
-  delay(1500); // Wait 5 seconds and scan again
+  server.send(200, "text/plain", (String) direction);
+}
+ 
+void loop() {
+  server.handleClient();
 }
 
 void mpu6050Begin(byte addr){
@@ -229,7 +263,8 @@ scaleddata convertRawToScaled(byte addr, rawdata data_in, bool Debug){
     Serial.print(" g| AcY = "); Serial.print(values.AcY);
     Serial.print(" g| AcZ = "); Serial.print(values.AcZ);Serial.println(" g");
   }
-   
+
+   valuesToDirection(values);
   return values;
 }
 
@@ -237,32 +272,32 @@ bool reasonablyClose(float value, float target) {
   return (value - ACCL_THRESHOLD < target) && (value + ACCL_THRESHOLD > target);
 }
 
-void valuesToDirection() {
+void valuesToDirection(scaleddata val) {
   //X value: sides 2 and 5
-  if (reasonablyClose(val.AcX, -1) {
+  if (reasonablyClose(val.AcX, -1)) {
     direction = 5; 
   }
-  if (reasonablyClose(val.AcX, 1) {
+  if (reasonablyClose(val.AcX, 1)) {
     direction = 2; 
   }
 
   //Y value: sides 3 and 4
-  if (reasonablyClose(val.AcY, -1) {
+  if (reasonablyClose(val.AcY, -1)) {
     direction = 4; 
   }
-  if (reasonablyClose(val.AcY, 1) {
+  if (reasonablyClose(val.AcY, 1)) {
     direction = 3; 
   }
 
   //Z value: sides 1 and 6
-  if (reasonablyClose(val.AcZ, -1) {
+  if (reasonablyClose(val.AcZ, -1)) {
     direction = 1; 
   }
-  if (reasonablyClose(val.AcZ, 1) {
+  if (reasonablyClose(val.AcZ, 1)) {
     direction = 6; 
   }
 
-  if (Debug) {
+  if (true) {
     Serial.print("Direction: ");
     Serial.print(direction);
     Serial.print("\n");
