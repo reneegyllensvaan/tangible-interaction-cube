@@ -41,7 +41,9 @@ struct scaleddata{
   float GyY;
   float GyZ;
 };
- 
+
+const String webcontent = "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title>Privacy Cube</title><style>body {margin: 40px;background-color: white;}#poster {display: grid;grid-gap: 20px;grid-template-columns: 1fr 1fr [last];}.box {background-color: black;border-radius: 5px;padding: 10px;text-align: center;}#active_mode_title {color: white;}.header {background-color: rgb(66, 202, 39);text-align: center;grid-column: 1/ last;}.footer {background-color: rgb(150, 243, 141);text-align: center;grid-column: 1/ last;}.zen {background-image: url(http://localhost/image-zen.png);background-position: center;background-repeat: no-repeat;background-size: contain;}.party {background-image: url(http://localhost/image-party.png);background-position: center;background-repeat: no-repeat;background-size: contain;}.party-hard {background-image: url(http://localhost/image-partyhard.png);background-position: center;background-repeat: no-repeat;background-size: contain;}.focus {background-image: url(http://localhost/image-focus.png);background-position: center;background-repeat: no-repeat;background-size: contain;}.relax {background-image: url(http://localhost/image-relax.png);background-position: center;background-repeat: no-repeat;background-size: contain;}.initial {background-image: url(http://localhost/image-initial.png);background-position: center;background-repeat: no-repeat;background-size: contain;}.size {min-height: 500px;}</style></head><body><div class=\"box header\"><h1>Active Side of the Privacy Cube</h1></div><p></p><div class=\"box\"><h1 id=\"active_mode_title\">Zen mode</h1></div><div id=\"active_mode\" class=\"box zen size\"></div><div class=\"box\"></div><p></p><div class=\"box footer\"><p>Created by (CIDs): gsanna, renee, wiebkem, wilfalk, urbanek </p></div><script>function changeContent (side) {console.log(\"set side to: \", side);var active_mode_title = document.getElementById(\"active_mode_title\");var active_mode = document.getElementById(\"active_mode\");switch(side) {case 1:active_mode_title.innerHTML= \"Zen mode\";active_mode.className= \"box zen size\";break;case 2:active_mode_title.innerHTML= \"Focus mode\";active_mode.className= \"box focus size\";break;case 3:active_mode_title.innerHTML= \"Party mode\";active_mode.className= \"box party size\";break;case 4:active_mode_title.innerHTML= \"Party-hard mode\";active_mode.className= \"box party-hard size\";break;case 5:active_mode_title.innerHTML= \"Relax mode\";active_mode.className= \"box relax size\";break;case 6:active_mode_title.innerHTML= \"Initial mode\";active_mode.className= \"box initial size\";break;}}function directionReceived () {changeContent(+this.responseText);}function getDirection () {oReq.open(\"GET\", \"/dir\");oReq.send();window.setTimeout(getDirection, 700);}var oReq = new XMLHttpRequest();oReq.addEventListener(\"load\", directionReceived);getDirection();</script></body></html>";
+
 bool checkI2c(byte addr);
 void mpu6050Begin(byte addr);
 rawdata mpu6050Read(byte addr, bool Debug);
@@ -75,7 +77,7 @@ void setup() {
 }
 
 void serveInterface(){
-  server.send(200, "text/html", "hello cube!");
+  server.send(200, "text/html", webcontent);
 }
 
 void handleDirection(){
@@ -305,3 +307,6 @@ void valuesToDirection(scaleddata val) {
 
   return;
 }
+
+
+

@@ -11,10 +11,14 @@ body {
 }
 
 .box {
-    background-color: rgb(207, 207, 207);
+    background-color: black;
     border-radius: 5px;
     padding: 10px;
     text-align: center;
+}
+
+#active_mode_title {
+    color: white;
 }
 
 .header {
@@ -30,42 +34,42 @@ body {
 }
 
 .zen {
-    background-image: url(Zenyatta-portrait.png);
+    background-image: url(image-zen.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
 
 .party {
-    background-image: url(Sombra-portrait.png);
+    background-image: url(image-party.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
 
 .party-hard {
-    background-image: url(Junkrat-Portrait.png);
+    background-image: url(image-partyhard.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
 
 .focus {
-    background-image: url(Hanzoplate.png);
+    background-image: url(image-focus.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
 
 .relax {
-    background-image: url(Moira.png);
+    background-image: url(image-relax.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
 
 .initial {
-    background-image: url(Mccree-portrait.png);
+    background-image: url(image-initial.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -75,4 +79,3 @@ body {
     min-height: 500px;
 }
 
-}
